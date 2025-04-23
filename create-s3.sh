@@ -15,12 +15,8 @@ fi
 echo "Checking if bucket $BUCKET_NAME exists..."
 echo "Checking if multi environment works"
 
-if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
-  echo "Bucket $BUCKET_NAME already exists. Skipping creation."
+if [ "$AWS_REGION" == "us-east-1" ]; then
+  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$AWS_REGION"
 else
-  echo "Bucket $BUCKET_NAME does not exist. Creating..."
-  aws s3api create-bucket \
-    --bucket "$BUCKET_NAME" \
-    --region "$AWS_REGION" 
-  echo "Bucket $BUCKET_NAME created successfully."
+  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$AWS_REGION" --create-bucket-configuration LocationConstraint="$AWS_REGION"
 fi
