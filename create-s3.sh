@@ -13,6 +13,7 @@ fi
 
 # Check if bucket already exists
 echo "Checking if bucket $BUCKET_NAME exists..."
+echo "Checking if multi environment works"
 
 if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
   echo "Bucket $BUCKET_NAME already exists. Skipping creation."
